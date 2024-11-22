@@ -1,0 +1,8 @@
+<suite name = "LCW Get Price Project">
+    <parameter name = "browser" value = "Firefox" />
+    <test name = "LCW">
+        <classes>
+            <class name = "testRunners.runner"/>
+        </classes>
+    </test>
+</suite>

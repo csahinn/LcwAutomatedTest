@@ -1,3 +1,7 @@
+package Tests;
+
+import Pages.HomePage;
+import Pages.ProductPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.JavascriptExecutor;
@@ -10,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 public class PickCheapest {
     private WebDriver driver;
     private String baseUrl;
+    private HomePage homePage;
+    private ProductPage productPage;
 
     @BeforeMethod
     public void setUp() throws Exception {
@@ -21,31 +27,34 @@ public class PickCheapest {
 
         baseUrl = "https://www.lcw.com";
 
+        homePage = new HomePage(driver);
+        productPage = new ProductPage(driver);
+
     }
 
     @Test
     public void getProduct() {
         driver.get(baseUrl);
         letsWaitALittleBit();
-
         //Reject the cookies automatically.
-        WebElement rejectCookies = driver.findElement(By.xpath("//button[@id='cookieseal-banner-reject']"));
-        rejectCookies.click();
-
+        homePage.rejectCookies();
+        letsWaitALittleBit();
         //Click the navbar item.
-        WebElement navItem = driver.findElement(By.xpath("//a[contains(@class,'menu-header-item__title')][normalize-space()='ERKEK']"));
-        navItem.click();    //Click the "Erkek" button in the navbar.
+        homePage.selectCategory();
         letsWaitALittleBit();
 
-        //Click to Sort dropdown.
-        WebElement sortButton = driver.findElement(By.xpath("//button[@class='dropdown-button__button']//*[name()='svg']"));
-        sortButton.click();
+        //Click to the Sort dropdown.
+        //WebElement sortButton = driver.findElement(By.xpath("//button[@class='dropdown-button__button']//*[name()='svg']"));
+        productPage.clickSortDropdown();
+        letsWaitALittleBit();
+        //Click to sort ascending.
+        productPage.sortAscending();
         letsWaitALittleBit();
 
         //Sort items ascending.
-        WebElement sortAscending = driver.findElement(By.xpath("//a[contains(text(),'En düşük fiyat')]"));
+        /*WebElement sortAscending = driver.findElement(By.xpath("//a[contains(text(),'En düşük fiyat')]"));
         sortAscending.click();
-        letsWaitALittleBit();
+        letsWaitALittleBit(); */
 
         //Scroll down and pick the first item.
         JavascriptExecutor js = (JavascriptExecutor) driver;
